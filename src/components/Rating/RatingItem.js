@@ -1,0 +1,34 @@
+// @flow
+
+import * as React from 'react';
+import styled, { css } from 'styled-components';
+
+const zoomMixin = css`
+  svg {
+    transform: scale(1.2);
+  }
+`;
+
+const Container = styled.span`
+  cursor: pointer;
+  padding: 0 4px;
+  width: 100%;
+  transition: zoom 180ms, opacity 180ms;
+  opacity: ${p => (p.selected || p.active ? 1 : 0.5)};
+  ${p => p.active && zoomMixin};
+`;
+
+type Props = {
+  color: string,
+  icon: React.ComponentType<{ color: string }>,
+  active: boolean,
+  selected: boolean,
+};
+
+export default ({ color = '#fff', icon: Icon, ...props }: Props) => {
+  return (
+    <Container {...props}>
+      <Icon color={color} />
+    </Container>
+  );
+};
