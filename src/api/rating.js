@@ -13,15 +13,10 @@ export const fetch = (contentId: number): Promise<RatingResponse> =>
   });
 
 // Simulate POST /rating
-type SubmitResponse = {
-  error: number,
-  message?: string,
-  resource?: mixed,
-};
-
 // userId would best be pulled from the session rather than being set in the
 // call to /rating.
 export const submit = (
   userId: number,
-  contentId: number
-): Promise<SubmitResponse> => Promise.resolve({ error: 0 });
+  contentId: number,
+  rating: number
+): Promise<RatingResponse> => Promise.resolve({ contentId, average: 3.4 });

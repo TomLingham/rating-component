@@ -80,12 +80,12 @@ export default ({
 
   return (
     <Container>
-      <Headline>So... what did you think? {rating}</Headline>
+      <Headline>So... what did you think?</Headline>
       <StarItemsContainer onMouseLeave={() => onChangeIndicativeRating(0)}>
         {ratingItems}
       </StarItemsContainer>
     </Container>
   );
 
-  // shouldComponentUpdate
+  // TODO: shouldComponentUpdate
 };

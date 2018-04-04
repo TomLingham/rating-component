@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import styled from 'styled-components';
 
 import * as api from '../api';
 import Rating from './Rating';
@@ -13,7 +14,13 @@ type ApplicationState = {
   loaded: boolean,
   ratingSubmitted: boolean,
   userId: number,
+  userRatings: { [mixed]: number },
 };
+
+const MockContent = styled.div`
+  margin: 40px auto;
+  width: 400px;
+`;
 
 export default class App extends React.Component<{}, ApplicationState> {
   state = {
@@ -23,13 +30,14 @@ export default class App extends React.Component<{}, ApplicationState> {
     loaded: false,
     error: false,
     ratingSubmitted: false,
+    userRatings: {}, // A Map may be more appropriate
   };
 
   onChangeRating = (rating: number) => {
     console.log('Submitting the rating:', rating);
 
     api.rating
-      .submit(this.state.userId, rating)
+      .submit(this.state.userId, this.state.contentId, rating)
       .then(result => console.log('Rating submitted!', result))
       .catch(error => {
         // TODO: Maybe an error case. User might prefer to just not know about it,
@@ -38,7 +46,12 @@ export default class App extends React.Component<{}, ApplicationState> {
 
     // setState before worrying about what comes back from the server so that
     // the user experience is not interrupted.
-    this.setState({ ratingSubmitted: true });
+    const userRatings = {
+      ...this.state.userRatings,
+      [this.state.contentId]: rating,
+    };
+
+    this.setState({ ratingSubmitted: true, userRatings });
   };
 
   componentDidMount() {
@@ -55,8 +68,32 @@ export default class App extends React.Component<{}, ApplicationState> {
 
   render() {
     // TODO: Make this a HOC
-    if (!this.state.loaded) {
+    const { loaded, ratingSubmitted, userRatings, contentId } = this.state;
+    if (!loaded) {
       return <div>Loading your rating</div>;
+    }
+
+    if (ratingSubmitted && userRatings[contentId] >= 4) {
+      return (
+        <MockContent>
+          <p>If you liked that, you might like these:</p>
+          <ul>
+            <li>Movie 1</li>
+            <li>Movie 2</li>
+          </ul>
+        </MockContent>
+      );
+    }
+
+    if (ratingSubmitted) {
+      return (
+        <MockContent>
+          <p>
+            Thank you for your valuable feeedback. We will use this to help
+            improve your experience.
+          </p>
+        </MockContent>
+      );
     }
 
     return (
