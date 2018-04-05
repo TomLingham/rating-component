@@ -3,6 +3,8 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 
+import { type RatingIconType } from '../RatingIcons';
+
 const zoomMixin = css`
   svg {
     transform: scale(1.2);
@@ -20,15 +22,21 @@ const Container = styled.span`
 
 type Props = {
   color: string,
-  icon: React.ComponentType<{ color: string }>,
+  icon: RatingIconType,
   active: boolean,
   selected: boolean,
+  fillPercentage: number,
 };
 
-export default ({ color = '#fff', icon: Icon, ...props }: Props) => {
+export default ({
+  color = '#fff',
+  icon: Icon,
+  fillPercentage,
+  ...props
+}: Props) => {
   return (
     <Container {...props}>
-      <Icon color={color} />
+      <Icon color={color} fillPercentage={fillPercentage} />
     </Container>
   );
 };

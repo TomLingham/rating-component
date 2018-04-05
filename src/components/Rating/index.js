@@ -1,8 +1,9 @@
 // @flow
 
 import * as React from 'react';
+
 import RatingPure from './RatingPure';
-import { type IconType } from '../Icons';
+import { type RatingIconType } from '../RatingIcons';
 
 type State = {
   rating: number,
@@ -12,30 +13,49 @@ type State = {
 // This is the public API for this component.
 // TODO: add docs
 type Props = {
-  average: number,
-  icon: IconType,
-  max: number,
+  average?: number,
+  max?: number,
+  color?: string,
+
+  // Icon is compulsory so that we don't automatically import an icon that the
+  // user does not need so that we can eventually take advantage of tree
+  // shaking.
+  icon: RatingIconType,
   onChangeRating: number => void,
 };
 
 export default class Rating extends React.Component<Props, State> {
+  static defaultProps = {
+    // We can noop this instead of erroring for a better dev experience.
+    onChangeRating: () => {},
+  };
+
   state = {
     rating: 0,
     indicativeRating: 0,
   };
 
-  onChangeIndicativeRating = (indicativeRating: number) =>
+  onChangeIndicativeRating = (indicativeRating: number) => {
     this.setState({ indicativeRating });
+  };
 
   onSelectRating = (rating: number) => {
     this.setState({ rating }, () => this.props.onChangeRating(rating));
   };
 
   render() {
+    const { icon, max = 5, average = 0, color = '#ffd60b' } = this.props;
+
+    if (!icon) {
+      throw new Error('`icon` prop must be provided.');
+    }
+
     return (
       <RatingPure
-        icon={this.props.icon}
-        max={this.props.max}
+        icon={icon}
+        color={color}
+        max={max}
+        average={average}
         rating={this.state.rating}
         indicativeRating={this.state.indicativeRating}
         onChangeIndicativeRating={this.onChangeIndicativeRating}

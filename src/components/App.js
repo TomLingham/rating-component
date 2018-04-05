@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import * as api from '../api';
 import Rating from './Rating';
-import StarIcon from './Icons/Star';
+import StarIcon from './RatingIcons/Star';
 
 type ApplicationState = {
   average: number,
@@ -17,18 +17,38 @@ type ApplicationState = {
   userRatings: { [mixed]: number },
 };
 
-const MockContent = styled.div`
+const RatingResponse = styled.div`
   margin: 40px auto;
   width: 400px;
 `;
 
+const Container = styled.div`
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+`;
+
+const RatingContainer = styled.div`
+  background-image: linear-gradient(#000000aa, #000);
+  border-radius: 8px;
+  padding: 18px;
+`;
+
+const Headline = styled.h3`
+  color: white;
+  margin-top: 0;
+  text-align: center;
+`;
+
 export default class App extends React.Component<{}, ApplicationState> {
   state = {
-    userId: 4132246,
-    contentId: 562135,
     average: 0,
-    loaded: false,
+    contentId: 562135,
+    userId: 4132246,
     error: false,
+    loaded: false,
     ratingSubmitted: false,
     userRatings: {}, // A Map may be more appropriate
   };
@@ -37,9 +57,10 @@ export default class App extends React.Component<{}, ApplicationState> {
     console.log('Submitting the rating:', rating);
 
     api.rating
-      .submit(this.state.userId, this.state.contentId, rating)
+      .submitRating(this.state.userId, this.state.contentId, rating)
       .then(result => console.log('Rating submitted!', result))
       .catch(error => {
+        console.error(error);
         // TODO: Maybe an error case. User might prefer to just not know about it,
         // however. Probably just log or throw for capturing metrics.
       });
@@ -51,14 +72,15 @@ export default class App extends React.Component<{}, ApplicationState> {
       [this.state.contentId]: rating,
     };
 
-    this.setState({ ratingSubmitted: true, userRatings });
+    this.setState({ userRatings, ratingSubmitted: true });
   };
 
   componentDidMount() {
     api.rating
-      .fetch(this.state.contentId)
+      .fetchRating(this.state.contentId)
       .then(({ average }) => this.setState({ average, loaded: true }))
       .catch(error => {
+        console.error(error);
         // TODO: Perhaps an error case here.
         // However, it may be safe to assume that the user would prefer not to
         // notice if there is an error, and just display the rating stars
@@ -67,42 +89,46 @@ export default class App extends React.Component<{}, ApplicationState> {
   }
 
   render() {
-    // TODO: Make this a HOC
+    // TODO: Handle the loading state with a HOC
     const { loaded, ratingSubmitted, userRatings, contentId } = this.state;
+    const rating = userRatings[contentId];
+    const isPositiveRating = rating >= 4;
+
     if (!loaded) {
       return <div>Loading your rating</div>;
     }
 
-    if (ratingSubmitted && userRatings[contentId] >= 4) {
-      return (
-        <MockContent>
-          <p>If you liked that, you might like these:</p>
-          <ul>
-            <li>Movie 1</li>
-            <li>Movie 2</li>
-          </ul>
-        </MockContent>
-      );
-    }
-
-    if (ratingSubmitted) {
-      return (
-        <MockContent>
-          <p>
-            Thank you for your valuable feeedback. We will use this to help
-            improve your experience.
-          </p>
-        </MockContent>
-      );
-    }
-
     return (
-      <Rating
-        icon={StarIcon}
-        max={5}
-        average={this.state.average}
-        onChangeRating={this.onChangeRating}
-      />
+      <Container>
+        <RatingContainer>
+          <Headline>So... what did you think?</Headline>
+          <Rating
+            icon={StarIcon}
+            max={5}
+            average={this.state.average}
+            onChangeRating={this.onChangeRating}
+          />
+        </RatingContainer>
+        {ratingSubmitted ? (
+          <RatingResponse>
+            <h3>You rated the movie {rating} stars!</h3>
+            {isPositiveRating ? (
+              <>
+                <p>If you liked that, you might like these:</p>
+                <ul>
+                  <li>Movie 1</li>
+                  <li>Movie 2</li>
+                </ul>
+              </>
+            ) : (
+              <p>
+                Thank you for your valuable feeedback. We will use this to help
+                improve your experience.
+              </p>
+            )}
+          </RatingResponse>
+        ) : null}
+      </Container>
     );
   }
 }
