@@ -43,6 +43,13 @@ const Headline = styled.h3`
   text-align: center;
 `;
 
+const AverageRating = styled.p`
+  margin-bottom: 0;
+  text-align: right;
+  color: white;
+  font-size: 0.8em;
+`;
+
 export default class App extends React.Component<{}, ApplicationState> {
   state = {
     average: 0,
@@ -117,6 +124,7 @@ export default class App extends React.Component<{}, ApplicationState> {
             max={maxStarRating}
             onChangeRating={this.onChangeRating}
           />
+          <AverageRating>Average: {average}/{maxStarRating}</AverageRating>
         </RatingContainer>
         {ratingSubmitted ? (
           <RatingResponse>
