@@ -15,6 +15,7 @@ type ApplicationState = {
   ratingSubmitted: boolean,
   userId: number,
   userRatings: { [mixed]: number },
+  maxStarRating: number,
 };
 
 const RatingResponse = styled.div`
@@ -51,6 +52,7 @@ export default class App extends React.Component<{}, ApplicationState> {
     loaded: false,
     ratingSubmitted: false,
     userRatings: {}, // A Map may be more appropriate
+    maxStarRating: 5,
   };
 
   onChangeRating = (rating: number) => {
@@ -61,8 +63,8 @@ export default class App extends React.Component<{}, ApplicationState> {
       .then(result => console.log('Rating submitted!', result))
       .catch(error => {
         console.error(error);
-        // TODO: Maybe an error case. User might prefer to just not know about it,
-        // however. Probably just log or throw for capturing metrics.
+        // TODO: Maybe an error case. User might prefer to just not know about
+        // it, however. Probably just log or throw for capturing metrics.
       });
 
     // setState before worrying about what comes back from the server so that
@@ -81,16 +83,23 @@ export default class App extends React.Component<{}, ApplicationState> {
       .then(({ average }) => this.setState({ average, loaded: true }))
       .catch(error => {
         console.error(error);
-        // TODO: Perhaps an error case here.
-        // However, it may be safe to assume that the user would prefer not to
-        // notice if there is an error, and just display the rating stars
-        // without displaying an average.
+        // TODO: Perhaps an error case here. However, it may be safe to assume
+        // that the user would prefer not to notice if there is an error, and
+        // just display the rating stars without displaying an average.
       });
   }
 
   render() {
     // TODO: Handle the loading state with a HOC
-    const { loaded, ratingSubmitted, userRatings, contentId } = this.state;
+    const {
+      average,
+      contentId,
+      loaded,
+      maxStarRating,
+      ratingSubmitted,
+      userRatings,
+    } = this.state;
+
     const rating = userRatings[contentId];
     const isPositiveRating = rating >= 4;
 
@@ -103,15 +112,17 @@ export default class App extends React.Component<{}, ApplicationState> {
         <RatingContainer>
           <Headline>So... what did you think?</Headline>
           <Rating
+            average={average}
             icon={StarIcon}
-            max={5}
-            average={this.state.average}
+            max={maxStarRating}
             onChangeRating={this.onChangeRating}
           />
         </RatingContainer>
         {ratingSubmitted ? (
           <RatingResponse>
-            <h3>You rated the movie {rating} stars!</h3>
+            <h3>
+              You rated the movie {rating}/{maxStarRating} stars!
+            </h3>
             {isPositiveRating ? (
               <>
                 <p>If you liked that, you might like these:</p>

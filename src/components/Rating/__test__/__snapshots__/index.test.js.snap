@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Rating /> should render 2 rating items 1`] = `
+<div
+  className="sc-bwzfXH ipbklb"
+  onMouseLeave={[Function]}
+>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+</div>
+`;
+
+exports[`<Rating /> should render the default snapshot 1`] = `
+<div
+  className="sc-bwzfXH ipbklb"
+  onMouseLeave={[Function]}
+>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="sc-bdVaJa RLPhx"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+</div>
+`;
