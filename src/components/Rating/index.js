@@ -11,7 +11,7 @@ type State = {
 };
 
 // This is the public API for this component.
-// TODO: add docs
+// TODO: add/generate docs
 type Props = {
   average?: number,
   max?: number,
@@ -46,8 +46,10 @@ export default class Rating extends React.Component<Props, State> {
   render() {
     const { icon, max = 5, average = 0, color = '#ffd60b' } = this.props;
 
-    if (!icon) {
-      throw new Error('`icon` prop must be provided.');
+    if (__DEV__) {
+      if (!icon) throw new Error('`icon` prop must be provided.');
+      if (max < 1) throw new Error('`max` prop must be greater than or equal to 1.');
+      if (average < 0) throw new Error('`average` prop must be greater than or equal to 0.');
     }
 
     return (

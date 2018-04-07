@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import RatingItem from './RatingItem';
 import { type RatingIconType } from '../RatingIcons';
 
-const StarItemsContainer = styled.div`
+const RatingItemsContainer = styled.div`
   display: flex;
   width: 80%;
   margin: 0 auto;
@@ -42,6 +42,7 @@ export default ({
 }: Props) => {
   const ratingItems = [];
 
+  // TODO: Improve this
   // This could put the index in a data attribute, then we could pass through a
   // generic function that reads the attribute instead of creating a new
   // function for each rating item, but it's possibly a premature optimisation
@@ -49,8 +50,12 @@ export default ({
   for (let ratingItemIndex = 1; ratingItemIndex <= max; ratingItemIndex++) {
     const isSelected = rating >= ratingItemIndex;
     const isActive = indicativeRating >= ratingItemIndex;
-    const fillPercentage =
-      isActive || isSelected ? 1 : average - ratingItemIndex + 1;
+    let fillPercentage = 1;
+
+    if (!isActive && !isSelected) {
+      // Bound the values here too just to make the api a little nicer to test
+      fillPercentage = Math.max(Math.min(average - ratingItemIndex + 1, 1), 0);
+    }
 
     ratingItems.push(
       <RatingItem
@@ -67,8 +72,8 @@ export default ({
   }
 
   return (
-    <StarItemsContainer onMouseLeave={() => onChangeIndicativeRating(0)}>
+    <RatingItemsContainer onMouseLeave={() => onChangeIndicativeRating(0)}>
       {ratingItems}
-    </StarItemsContainer>
+    </RatingItemsContainer>
   );
 };

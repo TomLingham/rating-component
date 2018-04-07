@@ -1,12 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Rating /> should render 2 rating items 1`] = `
+exports[`<Rating /> should render the default snapshot 1`] = `
+.c1 {
+  cursor: pointer;
+  padding: 0 4px;
+  width: 100%;
+  -webkit-transition: zoom 180ms,opacity 180ms;
+  transition: zoom 180ms,opacity 180ms;
+  opacity: 0.5;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+}
+
 <div
-  className="sc-bwzfXH ipbklb"
+  className="c0"
   onMouseLeave={[Function]}
 >
   <span
-    className="sc-bdVaJa RLPhx"
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     selected={false}
@@ -16,7 +34,37 @@ exports[`<Rating /> should render 2 rating items 1`] = `
     </div>
   </span>
   <span
-    className="sc-bdVaJa RLPhx"
+    className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    selected={false}
+  >
+    <div>
+      +
+    </div>
+  </span>
+  <span
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     selected={false}
@@ -28,60 +76,8 @@ exports[`<Rating /> should render 2 rating items 1`] = `
 </div>
 `;
 
-exports[`<Rating /> should render the default snapshot 1`] = `
-<div
-  className="sc-bwzfXH ipbklb"
-  onMouseLeave={[Function]}
->
-  <span
-    className="sc-bdVaJa RLPhx"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    selected={false}
-  >
-    <div>
-      +
-    </div>
-  </span>
-  <span
-    className="sc-bdVaJa RLPhx"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    selected={false}
-  >
-    <div>
-      +
-    </div>
-  </span>
-  <span
-    className="sc-bdVaJa RLPhx"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    selected={false}
-  >
-    <div>
-      +
-    </div>
-  </span>
-  <span
-    className="sc-bdVaJa RLPhx"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    selected={false}
-  >
-    <div>
-      +
-    </div>
-  </span>
-  <span
-    className="sc-bdVaJa RLPhx"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    selected={false}
-  >
-    <div>
-      +
-    </div>
-  </span>
-</div>
-`;
+exports[`<Rating /> should throw if \`average\` prop is less than 0. 1`] = `"\`average\` prop must be greater than or equal to 0."`;
+
+exports[`<Rating /> should throw if \`max\` prop is less than 1. 1`] = `"\`max\` prop must be greater than or equal to 1."`;
+
+exports[`<Rating /> should throw if no \`icon\` prop is passed. 1`] = `"\`icon\` prop must be provided."`;

@@ -4,11 +4,6 @@ import * as React from 'react';
 
 import { type RatingIconProps } from './';
 
-// TODO: jsDoc
-function calcStarFill(percentage = 1) {
-  return 15.5 * Math.min(Math.max(0, percentage), 1);
-}
-
 export default ({ color, fillPercentage = 1 }: RatingIconProps) => (
   <svg fill={color} viewBox="0 0 24 24">
     <defs>
@@ -24,7 +19,7 @@ export default ({ color, fillPercentage = 1 }: RatingIconProps) => (
       x="4.3"
       y="2"
       style={{ clipPath: 'url(#b)' }}
-      width={calcStarFill(fillPercentage)}
+      width={15.5 * fillPercentage}
       height="19"
     />
     <path
